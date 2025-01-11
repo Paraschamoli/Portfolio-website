@@ -5,7 +5,7 @@ import {
   BiLogoNodejs,
   BiLogoReact,
 } from "react-icons/bi";
-import { SiTailwindcss } from "react-icons/si";
+import { SiTailwindcss, SiCplusplus, SiPython, SiMysql, SiGit } from "react-icons/si";
 import { motion } from "framer-motion";
 
 const Tech = () => {
@@ -77,6 +77,46 @@ const Tech = () => {
         >
           <SiTailwindcss
             className="cursor-pointer text-[80px] text-sky-500 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120px]"
+          />
+        </motion.div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+        >
+          <SiCplusplus
+            className="cursor-pointer text-[80px] text-blue-600 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120px]"
+          />
+        </motion.div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+        >
+          <SiPython
+            className="cursor-pointer text-[80px] text-yellow-500 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120px]"
+          />
+        </motion.div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+        >
+          <SiMysql
+            className="cursor-pointer text-[80px] text-blue-500 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120px]"
+          />
+        </motion.div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+        >
+          <SiGit
+            className="cursor-pointer text-[80px] text-red-600 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120px]"
           />
         </motion.div>
       </div>
