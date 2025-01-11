@@ -15,16 +15,10 @@ const Hero = () => {
         >
           <img
             src="./image.jpg"
-<<<<<<< HEAD
             alt="Portrait of Paras, a Web Developer"
             className="w-[250px] sm:w-[300px] md:w-[350px] cursor-pointer rounded-full shadow-xl shadow-indigo-900 
             transition-all duration-300 hover:-translate-y-5 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-600"
             loading="lazy"
-=======
-            alt="Hero section image"
-            className="w-[300px] cursor-pointer rounded-full shadow-xl shadow-indigo-900 
-           transition-all duration-300 hover:-translate-y-5 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-600 md:w-[350px]"
->>>>>>> d5b1615e235801e15a6d931febf3e4fe3824c45f
           />
         </motion.div>
         <motion.div
