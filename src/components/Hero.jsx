@@ -34,14 +34,10 @@ const Hero = () => {
             Web Developer
           </h3>
           <p className="text-sm md:text-base text-gray-400">
-            Driven and detail-oriented final-year Computer Science Engineering
-            student with a focus on full-stack web development. Proficient in
-            designing dynamic, scalable applications using React.js and Node.js,
-            and skilled in building RESTful APIs and managing databases.
-            Passionate about solving complex technical challenges and eager to
-            contribute to impactful software projects in a collaborative
-            environment. Seeking an internship to apply technical expertise,
-            improve problem-solving abilities, and develop industry-ready skills.
+            Computer Science Engineering graduate with experience in full-stack
+            development using React.js, Node.js, Go, and Gin. Skilled in
+            building scalable apps, RESTful APIs, and managing databases. Eager
+            to contribute to impactful projects and grow as a developer.
           </p>
         </motion.div>
       </div>

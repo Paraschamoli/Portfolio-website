@@ -22,35 +22,64 @@ const NavLinks = ({ className, onClick }) => (
 
 const SocialLinks = ({ className }) => (
   <ul className={className}>
+    {/* LinkedIn (official blue) */}
     <li>
       <a
         href="https://www.linkedin.com/in/paras-chamoli-87b89528b"
-        className="text-xl opacity-70 transition-all duration-300 hover:text-blue-500 hover:opacity-100"
+        className="text-xl opacity-70 transition-all duration-300 hover:opacity-100"
         aria-label="LinkedIn"
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        <BsLinkedin />
+        <BsLinkedin className="text-[#0077B5]" /> {/* LinkedIn Blue */}
       </a>
     </li>
+
+    {/* GitHub (official black) */}
     <li>
       <a
         href="https://github.com/Paraschamoli"
-        className="text-xl opacity-70 transition-all duration-300 hover:text-orange-500 hover:opacity-100"
+        className="text-xl opacity-70 transition-all duration-300 hover:opacity-100"
         aria-label="GitHub"
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        <BsGithub />
+        <BsGithub className="text-black dark:text-white" /> {/* Dark/light mode aware */}
       </a>
     </li>
+
+    {/* Gmail */}
+    <li>
+  <a
+    href="mailto:paraschamoli2592002@gmail.com"
+    className="text-[#D14836] text-xl opacity-70 transition-all duration-300 hover:opacity-100"
+    aria-label="Email"
+  >
+    <MdEmail />
+  </a>
+</li>
+
+
+    {/* LeetCode (official yellow gradient style) */}
     <li>
       <a
-        href="mailto:paraschamoli2592002@gmail.com"
-        className="text-xl opacity-70 transition-all duration-300 hover:text-red-500 hover:opacity-100"
-        aria-label="Email"
+        href="https://leetcode.com/u/paraschamoli/"
+        className="opacity-70 transition-all duration-300 hover:opacity-100"
+        aria-label="LeetCode"
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        <MdEmail />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
+          alt="LeetCode"
+          className="w-6 h-6"
+        />
       </a>
     </li>
   </ul>
 );
+
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
