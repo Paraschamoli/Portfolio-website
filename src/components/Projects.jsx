@@ -8,7 +8,7 @@ const projectData = [
     description:
       "A full-featured web application for real estate listings, allowing users to search, filter, and save properties.",
     technologies: ["JavaScript", "ExpressJs", "MongoDb", "ReactJs"],
-    link: "https://boisterous-sunshine-e381f0.netlify.app/",
+    link: "https://real-estate-web-fronte.onrender.com/",
   },
 ];
 
