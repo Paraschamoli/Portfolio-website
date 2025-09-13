@@ -13,6 +13,7 @@ import {
   SiGit,
   SiGo,
   SiCypress,
+  SiDocker, // ✅ Import Docker
 } from "react-icons/si";
 import { motion } from "framer-motion";
 
@@ -33,8 +34,8 @@ const Tech = () => {
     { Icon: SiMysql, color: "text-blue-500", name: "MySQL" },
     { Icon: SiGit, color: "text-red-600", name: "Git" },
     { Icon: SiGo, color: "text-cyan-500", name: "Go" },
-    //{ Icon: SiGo, color: "text-emerald-500", name: "Gin (Go)" }, // Reuse Go icon for Gin
     { Icon: SiCypress, color: "text-gray-700", name: "Cypress" },
+    { Icon: SiDocker, color: "text-blue-400", name: "Docker" }, // ✅ Added Docker
   ];
 
   return (
