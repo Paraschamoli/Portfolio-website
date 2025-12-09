@@ -10,6 +10,14 @@ const projectData = [
     technologies: ["JavaScript", "ExpressJs", "MongoDb", "ReactJs"],
     link: "https://real-estate-web-application-frontend.onrender.com/",
   },
+   {
+    image: "project2.png", // Add your Credence project screenshot here
+    title: "Credence~Stirov",
+    description:
+      "A modern, responsive React + Vite web application delivering hiring and background verification solutions with smooth UI and optimized performance.",
+    technologies: ["React", "Vite", "Tailwind CSS", "GitHub Pages"],
+    link: "https://credencestirov.com/",
+  },
 ];
 
 const scrollReveal=({children})=>{
