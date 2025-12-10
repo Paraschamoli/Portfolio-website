@@ -24,10 +24,10 @@ const projectData = [
 const ScrollReveal = ({ children, delay = 0 }) => {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay }}
     >
       {children}
     </motion.div>
@@ -36,36 +36,73 @@ const ScrollReveal = ({ children, delay = 0 }) => {
 
 const ProjectCard = ({ project, index }) => {
   return (
-    <ScrollReveal delay={index * 0.2}>
-      <div className="flex flex-col items-center gap-8 md:flex-row md:gap-12 bg-[#112240]/30 rounded-3xl p-6 hover:bg-[#112240]/50 transition-colors duration-300">
-        <div className="w-full md:w-1/2">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-64 object-cover rounded-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
-            loading="lazy"
-          />
-        </div>
-        <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <h3 className="text-2xl font-bold text-white">{project.title}</h3>
-          <p className="text-gray-400 leading-relaxed">{project.description}</p>
-          <div className="flex flex-wrap gap-3">
+    <ScrollReveal delay={index * 0.15}>
+      <div className="flex flex-col items-stretch gap-6 md:gap-8 bg-[#112240]/30 rounded-2xl md:rounded-3xl p-4 md:p-6 hover:bg-[#112240]/50 transition-colors duration-300">
+        {/* Image Section - Clickable */}
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full group block relative overflow-hidden rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        >
+          <div className="relative">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-auto max-h-[300px] md:max-h-[350px] object-contain transition-all duration-500 group-hover:scale-105 bg-[#0a192f]/50 p-2"
+              loading="lazy"
+            />
+            {/* Overlay on hover - now clickable since it's inside the <a> tag */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4">
+              <span className="text-white text-lg font-semibold mb-2">View Project</span>
+              <span className="text-cyan-300 text-sm flex items-center gap-1">
+                Visit Live Site
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </span>
+            </div>
+            
+            {/* Small badge to indicate it's clickable */}
+            <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded-md opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Click to view
+            </div>
+          </div>
+        </a>
+
+        {/* Content Section */}
+        <div className="w-full flex flex-col gap-3 md:gap-4">
+          <h3 className="text-xl md:text-2xl font-bold text-white leading-tight">
+            {project.title}
+          </h3>
+          
+          <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Technologies */}
+          <div className="flex flex-wrap gap-2 md:gap-3 mt-2">
             {project.technologies.map((tech, index) => (
               <span
-                className="px-4 py-2 bg-[#0a192f] text-gray-300 rounded-full text-sm font-medium"
+                className="px-3 py-1.5 md:px-4 md:py-2 bg-[#0a192f] text-gray-300 rounded-full text-xs md:text-sm font-medium border border-gray-800 hover:border-cyan-500/50 transition-colors duration-300"
                 key={index}
               >
                 {tech}
               </span>
             ))}
           </div>
+
+          {/* CTA Button - Secondary way to open project */}
           <a
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block w-fit px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1"
+            className="mt-4 w-full md:w-auto px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-95 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center gap-2"
           >
-            View Project
+            <span>View Live Project</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
           </a>
         </div>
       </div>
@@ -75,24 +112,55 @@ const ProjectCard = ({ project, index }) => {
 
 const Projects = () => {
   return (
-    <div
+    <section
       id="projects"
-      className="flex min-h-screen w-full flex-col items-center justify-center gap-12 p-4 md:px-8 md:py-24"
+      className="min-h-screen w-full flex flex-col items-center justify-center py-12 md:py-24 px-4 sm:px-6 lg:px-8"
     >
-      <ScrollReveal>
-        <h1 className="text-4xl font-bold text-white md:text-6xl text-center">
-          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            My Projects
-          </span>
-        </h1>
-      </ScrollReveal>
-      
-      <div className="w-full max-w-6xl flex flex-col gap-12 text-white">
-        {projectData.map((project, index) => (
-          <ProjectCard key={index} project={project} index={index} />
-        ))}
+      {/* Header */}
+      <div className="w-full max-w-6xl mb-10 md:mb-16">
+        <ScrollReveal>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-4">
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              Featured Projects
+            </span>
+          </h1>
+          <p className="text-gray-400 text-center text-sm md:text-base max-w-2xl mx-auto px-4">
+            Click on any project image or button to view the live application
+          </p>
+        </ScrollReveal>
       </div>
-    </div>
+
+      {/* Projects Grid */}
+      <div className="w-full max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          {projectData.map((project, index) => (
+            <div key={index}>
+              <ProjectCard project={project} index={index} />
+            </div>
+          ))}
+        </div>
+
+        {/* GitHub link */}
+        <ScrollReveal delay={0.3}>
+          <div className="text-center mt-10 md:mt-16">
+            <p className="text-gray-400 text-sm md:text-base mb-4">
+              Want to see more? Check out my GitHub for additional projects and code samples.
+            </p>
+            <a
+              href="https://github.com/Paraschamoli"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-gray-700 text-gray-300 rounded-lg font-medium hover:bg-[#112240] hover:text-white hover:border-transparent transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+              </svg>
+              <span>View GitHub Profile</span>
+            </a>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
   );
 };
 
