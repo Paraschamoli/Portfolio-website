@@ -1,4 +1,5 @@
-import React from "react";
+// components/Tech.js
+import React, { memo } from "react";
 import {
   BiLogoJavascript,
   BiLogoMongodb,
@@ -13,7 +14,7 @@ import {
   SiGit,
   SiGo,
   SiCypress,
-  SiDocker, // ✅ Import Docker
+  SiDocker,
 } from "react-icons/si";
 import { motion } from "framer-motion";
 
@@ -24,33 +25,36 @@ const Tech = () => {
   };
 
   const icons = [
-    { Icon: BiLogoJavascript, color: "text-yellow-500", name: "JavaScript" },
-    { Icon: BiLogoReact, color: "text-blue-500", name: "React" },
+    { Icon: BiLogoJavascript, color: "text-yellow-400", name: "JavaScript" },
+    { Icon: BiLogoReact, color: "text-cyan-400", name: "React" },
     { Icon: BiLogoNodejs, color: "text-green-500", name: "Node.js" },
-    { Icon: BiLogoMongodb, color: "text-green-700", name: "MongoDB" },
-    { Icon: SiTailwindcss, color: "text-sky-500", name: "Tailwind CSS" },
-    { Icon: SiCplusplus, color: "text-blue-600", name: "C++" },
+    { Icon: BiLogoMongodb, color: "text-green-600", name: "MongoDB" },
+    { Icon: SiTailwindcss, color: "text-sky-400", name: "Tailwind CSS" },
+    { Icon: SiCplusplus, color: "text-blue-400", name: "C++" },
     { Icon: SiPython, color: "text-yellow-500", name: "Python" },
-    { Icon: SiMysql, color: "text-blue-500", name: "MySQL" },
-    { Icon: SiGit, color: "text-red-600", name: "Git" },
-    { Icon: SiGo, color: "text-cyan-500", name: "Go" },
-    { Icon: SiCypress, color: "text-gray-700", name: "Cypress" },
-    { Icon: SiDocker, color: "text-blue-400", name: "Docker" }, // ✅ Added Docker
+    { Icon: SiMysql, color: "text-blue-300", name: "MySQL" },
+    { Icon: SiGit, color: "text-orange-500", name: "Git" },
+    { Icon: SiGo, color: "text-cyan-300", name: "Go" },
+    { Icon: SiCypress, color: "text-gray-300", name: "Cypress" },
+    { Icon: SiDocker, color: "text-blue-400", name: "Docker" },
   ];
 
   return (
     <div
       id="tech"
-      className="flex min-h-[70vh] w-full flex-col items-center justify-center gap-16 md:gap-32"
+      className="flex min-h-[70vh] w-full flex-col items-center justify-center gap-16 md:gap-32 py-12"
     >
       <motion.h1
         variants={variants}
         initial="hidden"
         whileInView="visible"
         transition={{ duration: 0.5 }}
-        className="text-4xl font-light text-white md:text-6xl"
+        viewport={{ once: true }}
+        className="text-4xl font-bold text-white md:text-6xl"
       >
-        Technologies
+        <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          Technologies
+        </span>
       </motion.h1>
 
       <div className="flex flex-wrap items-center justify-center gap-10 p-5">
@@ -60,12 +64,20 @@ const Tech = () => {
             variants={variants}
             initial="hidden"
             whileInView="visible"
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            viewport={{ once: true }}
             title={name}
+            whileHover={{ y: -10 }}
+            className="group"
           >
-            <Icon
-              className={`cursor-pointer text-[80px] ${color} transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120px]`}
-            />
+            <div className="p-6 bg-[#112240]/50 rounded-2xl group-hover:bg-[#112240] transition-colors duration-300">
+              <Icon
+                className={`cursor-pointer text-6xl ${color} transition-all duration-300 group-hover:scale-110 sm:text-7xl md:text-8xl`}
+              />
+            </div>
+            <p className="text-center mt-4 text-gray-300 group-hover:text-white transition-colors duration-300">
+              {name}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -73,4 +85,4 @@ const Tech = () => {
   );
 };
 
-export default Tech;
+export default memo(Tech);

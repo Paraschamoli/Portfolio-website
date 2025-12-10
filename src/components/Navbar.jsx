@@ -1,133 +1,261 @@
-import React, { useState } from "react";
+// components/Navbar.js
+import React, { useState, useEffect, useCallback, memo, useRef } from "react";
 import { BiMenu, BiX } from "react-icons/bi";
 import { BsGithub, BsLinkedin } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
+import { SiLeetcode } from "react-icons/si";
 
-const NavLinks = ({ className, onClick }) => (
-  <ul className={className}>
-    {["Home", "Tech", "Projects", "Contact"].map((item) => (
-      <li key={item}>
-        <a
-          href={`#${item.toLowerCase()}`}
-          onClick={onClick}
-          className="cursor-pointer opacity-70 transition-all duration-300 hover:opacity-100"
-          aria-label={item}
-        >
-          {item}
-        </a>
-      </li>
-    ))}
-  </ul>
-);
+// Debounce function for scroll events
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
 
-const SocialLinks = ({ className }) => (
-  <ul className={className}>
-    {/* LinkedIn (official blue) */}
-    <li>
-      <a
-        href="https://www.linkedin.com/in/paras-chamoli-87b89528b"
-        className="text-xl opacity-70 transition-all duration-300 hover:opacity-100"
-        aria-label="LinkedIn"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <BsLinkedin className="text-[#0077B5]" /> {/* LinkedIn Blue */}
-      </a>
-    </li>
+const NavLinks = memo(({ className, onClick }) => {
+  const links = ["Home", "Tech", "Projects", "Contact"];
+  
+  const handleClick = useCallback((e) => {
+    e.preventDefault();
+    const targetId = e.currentTarget.getAttribute('href').substring(1);
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (onClick) onClick();
+  }, [onClick]);
 
-    {/* GitHub (official black) */}
-    <li>
-      <a
-        href="https://github.com/Paraschamoli"
-        className="text-xl opacity-70 transition-all duration-300 hover:opacity-100"
-        aria-label="GitHub"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <BsGithub className="text-black dark:text-white" /> {/* Dark/light mode aware */}
-      </a>
-    </li>
+  return (
+    <ul className={className}>
+      {links.map((item) => (
+        <li key={item}>
+          <a
+            href={`#${item.toLowerCase()}`}
+            onClick={handleClick}
+            className="cursor-pointer text-gray-300 hover:text-white transition-colors duration-300 px-3 py-2 rounded-lg hover:bg-[#112240] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            aria-label={`Navigate to ${item}`}
+            role="button"
+            tabIndex="0"
+          >
+            {item}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+});
 
-    {/* Gmail */}
-    <li>
-  <a
-    href="mailto:paraschamoli2592002@gmail.com"
-    className="text-[#D14836] text-xl opacity-70 transition-all duration-300 hover:opacity-100"
-    aria-label="Email"
-  >
-    <MdEmail />
-  </a>
-</li>
+NavLinks.displayName = 'NavLinks';
 
+const SocialLinks = memo(() => {
+  const socialLinks = [
+    {
+      href: "https://www.linkedin.com/in/paras-chamoli-87b89528b",
+      icon: <BsLinkedin className="text-[#0A66C2]" size={20} />,
+      label: "LinkedIn",
+      ariaLabel: "Visit LinkedIn profile"
+    },
+    {
+      href: "https://github.com/Paraschamoli",
+      icon: <BsGithub className="text-gray-300" size={20} />,
+      label: "GitHub",
+      ariaLabel: "Visit GitHub profile"
+    },
+    {
+      href: "mailto:paraschamoli2592002@gmail.com",
+      icon: <MdEmail className="text-[#EA4335]" size={20} />,
+      label: "Email",
+      ariaLabel: "Send email"
+    },
+    {
+      href: "https://leetcode.com/u/paraschamoli/",
+      icon: <SiLeetcode className="text-[#FFA116]" size={20} />,
+      label: "LeetCode",
+      ariaLabel: "Visit LeetCode profile"
+    }
+  ];
 
-    {/* LeetCode (official yellow gradient style) */}
-    <li>
-      <a
-        href="https://leetcode.com/u/paraschamoli/"
-        className="opacity-70 transition-all duration-300 hover:opacity-100"
-        aria-label="LeetCode"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
-          alt="LeetCode"
-          className="w-6 h-6"
-        />
-      </a>
-    </li>
-  </ul>
-);
-
-
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const menuOpen = () => {
-    setIsOpen(!isOpen);
+  // Security: Validate URLs
+  const isValidUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   return (
-    <nav className="fixed top-0 z-10 flex w-full items-center justify-between border-b border-b-gray-700 bg-black/70 px-6 py-4 text-white backdrop-blur-md lg:px-16">
-      {/* Logo */}
-      <a
-        href="#home"
-        className="bg-gradient-to-r from-blue-500 to-pink-500 bg-clip-text text-2xl font-semibold text-transparent transition-all duration-300 hover:opacity-100 md:text-3xl"
-        aria-label="Home"
-      >
-        Paras
-      </a>
+    <ul className="flex space-x-3">
+      {socialLinks.map((link) => (
+        <li key={link.label}>
+          {isValidUrl(link.href) ? (
+            <a
+              href={link.href}
+              className="p-2 rounded-lg transition-all duration-300 opacity-90 hover:opacity-100 hover:bg-[#112240] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              aria-label={link.ariaLabel}
+              target={link.href.startsWith('mailto:') ? '_self' : '_blank'}
+              rel={link.href.startsWith('mailto:') ? undefined : "noopener noreferrer nofollow"}
+              title={link.label}
+            >
+              {link.icon}
+            </a>
+          ) : null}
+        </li>
+      ))}
+    </ul>
+  );
+});
 
-      {/* Desktop Links */}
-      <div className="hidden md:flex items-center space-x-12">
-        <NavLinks className="flex space-x-8" />
-        <SocialLinks className="flex gap-5" />
-      </div>
+SocialLinks.displayName = 'SocialLinks';
 
-      {/* Mobile Menu Icon */}
-      <button
-        onClick={menuOpen}
-        className="block text-3xl md:hidden focus:outline-none"
-        aria-label="Toggle Menu"
-      >
-        {isOpen ? <BiX /> : <BiMenu />}
-      </button>
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef(null);
 
-      {/* Mobile Menu */}
-      <div
-        className={`fixed right-0 top-0 z-20 flex h-screen w-2/3 flex-col items-start justify-start gap-8 bg-black/90 p-8 text-white shadow-lg transform transition-transform duration-300 ease-in-out md:hidden ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <NavLinks
-          className="flex flex-col gap-6 text-lg"
-          onClick={menuOpen} // Close menu on link click
-        />
-        <SocialLinks className="flex gap-6" />
+  const toggleMenu = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  // Handle escape key to close menu
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, closeMenu]);
+
+  // Handle click outside to close menu
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target) && isOpen) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, closeMenu]);
+
+  // Optimized scroll handler with debounce
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      setScrolled(window.scrollY > 20);
+    }, 10);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Trap focus in mobile menu for accessibility
+  useEffect(() => {
+    if (isOpen) {
+      const focusableElements = navRef.current.querySelectorAll(
+        'a[href], button, textarea, input, select'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      const handleTabKey = (e) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey && document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          } else if (!e.shiftKey && document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      };
+
+      document.addEventListener('keydown', handleTabKey);
+      return () => document.removeEventListener('keydown', handleTabKey);
+    }
+  }, [isOpen]);
+
+  return (
+    <nav 
+      ref={navRef}
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled 
+          ? 'bg-[#0a192f]/95 backdrop-blur-md py-3 shadow-lg' 
+          : 'bg-transparent py-4'
+      }`}
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <a
+            href="#home"
+            className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent hover:opacity-90 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded"
+            aria-label="Home"
+            onClick={closeMenu}
+            role="button"
+            tabIndex="0"
+          >
+            Paras
+          </a>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
+            <NavLinks className="flex space-x-2" onClick={closeMenu} />
+            <div className="h-6 w-px bg-gray-700" aria-hidden="true"></div>
+            <SocialLinks />
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-[#112240] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+          >
+            {isOpen ? <BiX size={28} /> : <BiMenu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div 
+          id="mobile-menu"
+          className={`md:hidden fixed inset-x-0 top-16 transform transition-all duration-300 ease-in-out ${
+            isOpen 
+              ? 'translate-y-0 opacity-100 visible' 
+              : '-translate-y-4 opacity-0 invisible'
+          }`}
+          aria-hidden={!isOpen}
+        >
+          <div className="bg-[#0a192f]/95 backdrop-blur-md border-t border-gray-800 mx-4 rounded-b-xl shadow-2xl">
+            <div className="px-6 py-8 space-y-6">
+              <NavLinks 
+                className="flex flex-col space-y-4" 
+                onClick={closeMenu}
+              />
+              <div className="h-px bg-gray-800" aria-hidden="true"></div>
+              <SocialLinks />
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default memo(Navbar);
