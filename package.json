@@ -1,4 +1,4 @@
-{
+{    "$schema": "https://json.schemastore.org/package",
   "name": "portfolio",  
   "description": "Personal portfolio website",  
   "homepage": "https://paras_chamoli.github.io/Portfolio-website",
